@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Wardrobe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:#0a0a0f;
+color:white;
+overflow-x:hidden;
+}
+
+/* NAVBAR */
+
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+position:fixed;
+width:100%;
+top:0;
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+border-bottom:1px solid rgba(255,255,255,0.1);
+z-index:100;
+}
+
+.logo{
+font-size:22px;
+font-weight:800;
+background:linear-gradient(90deg,#00eaff,#7c3aed);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+nav ul{
+display:flex;
+gap:30px;
+list-style:none;
+}
+
+nav a{
+text-decoration:none;
+color:#ccc;
+transition:0.3s;
+}
+
+nav a:hover{
+color:white;
+}
+
+/* HERO */
+
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+position:relative;
+padding:0 20px;
+}
+
+#particles-js{
+position:absolute;
+width:100%;
+height:100%;
+top:0;
+left:0;
+z-index:-1;
+}
+
+.hero h1{
+font-size:64px;
+background:linear-gradient(90deg,#00eaff,#7c3aed);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.hero p{
+margin-top:20px;
+max-width:600px;
+color:#aaa;
+}
+
+.hero-buttons{
+margin-top:40px;
+display:flex;
+gap:20px;
+}
+
+.btn{
+padding:14px 32px;
+border-radius:30px;
+border:none;
+cursor:pointer;
+font-weight:600;
+transition:0.3s;
+}
+
+.primary{
+background:linear-gradient(90deg,#00eaff,#7c3aed);
+color:white;
+}
+
+.secondary{
+background:transparent;
+border:1px solid rgba(255,255,255,0.3);
+color:white;
+}
+
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 10px 30px rgba(0,234,255,0.4);
+}
+
+/* GENERATOR */
+
+.generator{
+padding:120px 8%;
+text-align:center;
+}
+
+.generator .form-group{
+margin:15px 0;
+}
+
+.select-filter{
+width:220px;
+padding:8px 10px;
+border-radius:6px;
+border:1px solid rgba(255,255,255,0.2);
+background:rgba(255,255,255,0.05);
+color:white;
+margin-bottom:5px;
+}
+.select-filter::placeholder{
+color:#aaa;
+}
+
+.generator label{
+font-weight:600;
+display:block;
+margin-bottom:5px;
+}
+
+.generator select{
+padding:10px;
+border-radius:6px;
+margin-top:5px;
+width:220px;
+}
+
+.generator button{
+margin-top:20px;
+}
+
+.result{
+margin-top:30px;
+font-size:20px;
+color:#00eaff;
+background:rgba(0,234,255,0.1);
+padding:20px;
+border-radius:10px;
+text-align:left;
+}
+
+.result h3{
+margin-top:0;
+}
+
+.result ul{
+margin:5px 0 15px 20px;
+list-style:circle;
+color:#ccc;
+font-size:16px;
+}
+
+.result p em{
+color:#fff;
+font-style:normal;
+font-weight:600;
+}
+
+.compliment{
+margin-top:20px;
+font-size:18px;
+color:#ffdd57;
+font-weight:700;
+text-align:center;
+}
+
+.motivation{
+margin-top:15px;
+font-size:18px;
+color:#a5f3fc;
+font-weight:700;
+text-align:center;
+line-height:1.4;
+white-space:pre-wrap;
+}
+
+.score-badge{
+font-size:24px;
+font-weight:800;
+color:#00eaff;
+background:rgba(0,234,255,0.1);
+padding:10px 20px;
+border-radius:20px;
+display:inline-block;
+margin-bottom:10px;
+border:2px solid rgba(0,234,255,0.3);
+}
+
+.item-image{
+width:80px;
+height:80px;
+object-fit:cover;
+border-radius:8px;
+margin-right:10px;
+vertical-align:middle;
+border:1px solid rgba(255,255,255,0.2);
+}
+/* UPLOAD SECTION */
+
+#upload-section{
+padding:100px 8%;
+text-align:center;
+background:rgba(255,255,255,0.02);
+}
+
+#upload-section h2{
+font-size:36px;
+margin-bottom:10px;
+background:linear-gradient(90deg,#00eaff,#7c3aed);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+.upload-description{
+color:#aaa;
+margin-bottom:40px;
+font-size:16px;
+}
+
+.upload-container{
+margin-bottom:30px;
+display:flex;
+gap:15px;
+justify-content:center;
+align-items:center;
+flex-wrap:wrap;
+}
+
+#upload{
+display:none;
+}
+
+.upload-btn{
+display:inline-block;
+padding:12px 24px;
+background:linear-gradient(90deg,#00eaff,#7c3aed);
+color:white;
+border-radius:25px;
+cursor:pointer;
+font-weight:600;
+transition:0.3s;
+border:2px solid transparent;
+}
+
+.upload-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 8px 25px rgba(0,234,255,0.4);
+background:linear-gradient(90deg,#7c3aed,#00eaff);
+}
+
+#wardrobe{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+margin-top:40px;
+}
+
+.wardrobe-item{
+width:140px;
+height:140px;
+object-fit:cover;
+border-radius:15px;
+transition:0.3s;
+border:2px solid rgba(255,255,255,0.1);
+}
+
+.clear-btn{
+margin-left:10px;
+}
+
+#share-link a{
+  word-break: break-all;
+  color: #00eaff;
+  text-decoration:underline;
+}
+
+#share-link button.secondary{
+  padding:6px 12px;
+  font-size:14px;
+  border-radius:6px;
+}
+.features{
+padding:120px 8%;
+text-align:center;
+}
+
+.features h2{
+font-size:40px;
+margin-bottom:60px;
+}
+
+.feature-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:30px;
+}
+
+.feature-card{
+padding:40px;
+border-radius:15px;
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+transition:0.4s;
+}
+
+.feature-card:hover{
+transform:translateY(-10px);
+box-shadow:0 10px 40px rgba(0,234,255,0.2);
+}
+
+/* STATS */
+
+.stats{
+padding:100px 8%;
+display:flex;
+justify-content:center;
+gap:60px;
+text-align:center;
+flex-wrap:wrap;
+}
+
+.stat h3{
+font-size:42px;
+color:#00eaff;
+}
+
+.stat p{
+color:#aaa;
+}
+
+/* TESTIMONIALS */
+
+.testimonials{
+padding:120px 8%;
+text-align:center;
+}
+
+.testimonial{
+max-width:600px;
+margin:auto;
+background:rgba(255,255,255,0.05);
+padding:40px;
+border-radius:15px;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+/* CTA */
+
+.cta{
+padding:100px 8%;
+text-align:center;
+background:linear-gradient(90deg,#00eaff,#7c3aed);
+}
+
+.cta h2{
+font-size:40px;
+margin-bottom:20px;
+}
+
+.cta button{
+background:white;
+color:black;
+padding:14px 30px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+}
+
+/* FOOTER */
+
+footer{
+padding:60px 8%;
+background:#050507;
+display:flex;
+justify-content:space-between;
+flex-wrap:wrap;
+color:#aaa;
+}
+
+footer h4{
+color:white;
+margin-bottom:15px;
+}
+
+footer a{
+display:block;
+text-decoration:none;
+color:#aaa;
+margin-bottom:6px;
+}
+
+footer a:hover{
+color:white;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 768px) {
+.hero h1 {
+font-size: 48px;
+}
+
+.hero p {
+font-size: 16px;
+max-width: 90%;
+}
+
+.hero-buttons {
+flex-direction: column;
+gap: 15px;
+}
+
+.btn {
+padding: 12px 24px;
+font-size: 14px;
+}
+
+nav {
+padding: 15px 5%;
+}
+
+nav ul {
+gap: 20px;
+}
+
+.generator, .features, .stats, .testimonials, .cta, #upload-section {
+padding: 60px 5%;
+}
+
+#upload-section h2 {
+font-size: 28px;
+}
+
+.wardrobe-item {
+width: 120px;
+height: 120px;
+}
+
+.feature-grid {
+grid-template-columns: 1fr;
+gap: 20px;
+}
+
+.stats {
+gap: 30px;
+}
+
+.stat h3 {
+font-size: 32px;
+}
+
+footer {
+flex-direction: column;
+text-align: center;
+gap: 30px;
+}
+}
+
+@media (max-width: 480px) {
+.hero h1 {
+font-size: 36px;
+}
+
+#upload-section h2 {
+font-size: 24px;
+}
+
+.wardrobe-item {
+width: 100px;
+height: 100px;
+}
+
+.upload-btn, .clear-btn {
+padding: 10px 20px;
+font-size: 14px;
+}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+<div class="logo">AI Wardrobe</div>
+
+<ul>
+<li><a href="#">Home</a></li>
+<li><a href="#generator">Outfit AI</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+</nav>
+
+<section class="hero">
+
+<div id="particles-js"></div>
+
+<h1>Your AI Personal Wardrobe</h1>
+
+<p>Upload your clothes and let artificial intelligence create the perfect outfit for any occasion.</p>
+
+<div class="hero-buttons">
+<button class="btn primary">Try AI Stylist</button>
+<button class="btn secondary">Learn More</button>
+</div>
+
+</section>
+
+<section id="upload-section">
+<h2>Upload Your Clothes</h2>
+<p class="upload-description">Add your clothing items to build your digital wardrobe</p>
+<div class="upload-container">
+<input type="file" id="upload" accept="image/*" multiple>
+<label for="upload" class="upload-btn">Choose Files</label>
+<button class="btn secondary clear-btn" onclick="clearWardrobe()">Clear Wardrobe</button>
+</div>
+<div id="wardrobe"></div>
+</section>
+
+<section class="generator" id="generator">
+
+<h2>AI Outfit Generator</h2>
+
+<div class="form-group">
+  <label for="occasion">Occasion</label><br>
+  <input type="text" id="occasion-filter" class="select-filter" placeholder="Search..." autocomplete="off">
+  <select id="occasion">
+    <option value="" disabled selected hidden>Select occasion</option>
+    <optgroup label="Everyday &amp; casual">
+      <option value="college">College</option>
+      <option value="school">School</option>
+      <option value="office_workday">Office workday</option>
+      <option value="work_from_home">Work from home</option>
+      <option value="casual_outing">Casual outing</option>
+      <option value="shopping">Shopping</option>
+      <option value="grocery_run">Grocery run</option>
+      <option value="coffee_meetup">Coffee meetup</option>
+      <option value="lunch_outing">Lunch outing</option>
+      <option value="dinner_outing">Dinner outing</option>
+      <option value="movie_night">Movie night</option>
+      <option value="study_session">Study session</option>
+      <option value="library_visit">Library visit</option>
+      <option value="park_walk">Park walk</option>
+      <option value="city_walk">City walk</option>
+      <option value="hangout_with_friends">Hangout with friends</option>
+      <option value="weekend_outing">Weekend outing</option>
+      <option value="night_out">Night out</option>
+      <option value="game_night">Game night</option>
+      <option value="road_trip">Road trip</option>
+    </optgroup>
+    <optgroup label="Formal &amp; professional">
+      <option value="job_interview">Job interview</option>
+      <option value="office_meeting">Office meeting</option>
+      <option value="client_meeting">Client meeting</option>
+      <option value="business_presentation">Business presentation</option>
+      <option value="conference">Conference</option>
+      <option value="seminar">Seminar</option>
+      <option value="workshop">Workshop</option>
+      <option value="networking_event">Networking event</option>
+      <option value="career_fair">Career fair</option>
+      <option value="internship_interview">Internship interview</option>
+      <option value="corporate_party">Corporate party</option>
+      <option value="award_ceremony">Award ceremony</option>
+      <option value="graduation_ceremony">Graduation ceremony</option>
+      <option value="formal_dinner">Formal dinner</option>
+      <option value="official_event">Official event</option>
+    </optgroup>
+    <optgroup label="Social &amp; party">
+      <option value="birthday_party">Birthday party</option>
+      <option value="house_party">House party</option>
+      <option value="cocktail_party">Cocktail party</option>
+      <option value="clubbing">Clubbing</option>
+      <option value="celebration_dinner">Celebration dinner</option>
+      <option value="friends_reunion">Friends reunion</option>
+      <option value="college_fest">College fest</option>
+      <option value="music_concert">Music concert</option>
+      <option value="live_show">Live show</option>
+      <option value="standup_comedy_show">Stand-up comedy show</option>
+    </optgroup>
+    <optgroup label="Family">
+      <option value="family_dinner">Family dinner</option>
+      <option value="family_gathering">Family gathering</option>
+      <option value="family_function">Family function</option>
+      <option value="anniversary_party">Anniversary party</option>
+      <option value="engagement_ceremony">Engagement ceremony</option>
+      <option value="wedding_ceremony">Wedding ceremony</option>
+      <option value="wedding_reception">Wedding reception</option>
+      <option value="baby_shower">Baby shower</option>
+      <option value="housewarming_party">Housewarming party</option>
+      <option value="religious_ceremony">Religious ceremony</option>
+    </optgroup>
+    <optgroup label="Festivals &amp; cultural">
+      <option value="diwali_celebration">Diwali celebration</option>
+      <option value="holi_celebration">Holi celebration</option>
+      <option value="eid_celebration">Eid celebration</option>
+      <option value="christmas_celebration">Christmas celebration</option>
+      <option value="navratri_garba">Navratri garba</option>
+      <option value="durga_puja">Durga puja</option>
+      <option value="ganesh_festival">Ganesh festival</option>
+      <option value="new_year_party">New Year party</option>
+      <option value="cultural_festival">Cultural festival</option>
+      <option value="traditional_celebration">Traditional celebration</option>
+    </optgroup>
+    <optgroup label="Dating &amp; romantic">
+      <option value="first_date">First date</option>
+      <option value="dinner_date">Dinner date</option>
+      <option value="movie_date">Movie date</option>
+      <option value="beach_date">Beach date</option>
+      <option value="picnic_date">Picnic date</option>
+      <option value="anniversary_date">Anniversary date</option>
+    </optgroup>
+    <optgroup label="Travel &amp; outdoor">
+      <option value="travel_day">Travel day</option>
+      <option value="airport_travel">Airport travel</option>
+      <option value="train_journey">Train journey</option>
+      <option value="road_trip">Road trip</option>
+      <option value="beach_vacation">Beach vacation</option>
+      <option value="mountain_trip">Mountain trip</option>
+      <option value="hiking">Hiking</option>
+      <option value="camping">Camping</option>
+      <option value="sightseeing">Sightseeing</option>
+    </optgroup>
+    <optgroup label="Fitness &amp; activity">
+      <option value="gym_workout">Gym workout</option>
+      <option value="yoga_class">Yoga class</option>
+      <option value="running">Running</option>
+      <option value="cycling">Cycling</option>
+      <option value="sports_match">Sports match</option>
+      <option value="dance_class">Dance class</option>
+    </optgroup>
+    <optgroup label="Seasonal">
+      <option value="summer_outing">Summer outing</option>
+      <option value="winter_outing">Winter outing</option>
+      <option value="rainy_day">Rainy day</option>
+      <option value="beach_day">Beach day</option>
+    </optgroup>
+    <optgroup label="Special lifestyle">
+      <option value="photoshoot">Photoshoot</option>
+      <option value="content_creation">Content creation</option>
+      <option value="fashion_event">Fashion event</option>
+      <option value="exhibition_visit">Exhibition visit</option>
+      <option value="art_gallery_visit">Art gallery visit</option>
+      <option value="book_launch">Book launch</option>
+      <option value="college_presentation">College presentation</option>
+      <option value="debate_competition">Debate competition</option>
+      <option value="hackathon">Hackathon</option>
+      <option value="startup_event">Startup event</option>
+    </optgroup>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="season">Season / Weather</label><br>
+  <input type="text" id="season-filter" class="select-filter" placeholder="Search..." autocomplete="off">
+  <select id="season">
+    <option value="" disabled selected hidden>Select season</option>
+    <optgroup label="Main seasons">
+      <option value="summer">Summer</option>
+      <option value="winter">Winter</option>
+      <option value="spring">Spring</option>
+      <option value="autumn">Autumn (Fall)</option>
+      <option value="monsoon">Monsoon</option>
+      <option value="all">All season</option>
+    </optgroup>
+    <optgroup label="Temperature-based">
+      <option value="hot_weather">Hot weather</option>
+      <option value="cold_weather">Cold weather</option>
+      <option value="mild_weather">Mild weather</option>
+      <option value="humid_weather">Humid weather</option>
+      <option value="dry_weather">Dry weather</option>
+      <option value="windy_weather">Windy weather</option>
+    </optgroup>
+    <optgroup label="Regional / climate">
+      <option value="tropical">Tropical</option>
+      <option value="subtropical">Subtropical</option>
+      <option value="desert_heat">Desert heat</option>
+      <option value="mountain_cold">Mountain cold</option>
+      <option value="coastal_weather">Coastal weather</option>
+      <option value="rainy_climate">Rainy climate</option>
+    </optgroup>
+    <optgroup label="Daily conditions">
+      <option value="sunny_day">Sunny day</option>
+      <option value="cloudy_day">Cloudy day</option>
+      <option value="rainy_day">Rainy day</option>
+      <option value="stormy_weather">Stormy weather</option>
+      <option value="foggy_morning">Foggy morning</option>
+    </optgroup>
+    <optgroup label="Travel / activity">
+      <option value="beach_weather">Beach weather</option>
+      <option value="snow_weather">Snow weather</option>
+      <option value="trekking_weather">Trekking weather</option>
+      <option value="festival_season">Festival season</option>
+      <option value="holiday_season">Holiday season</option>
+    </optgroup>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="body">Body / Proportion Type</label><br>
+  <input type="text" id="body-filter" class="select-filter" placeholder="Search..." autocomplete="off">
+  <select id="body">
+    <option value="" disabled selected hidden>Select body type</option>
+    <optgroup label="Basic shapes">
+      <option value="rectangle">Rectangle</option>
+      <option value="pear">Pear</option>
+      <option value="apple">Apple</option>
+      <option value="hourglass">Hourglass</option>
+      <option value="inverted_triangle">Inverted Triangle</option>
+      <option value="triangle">Triangle</option>
+    </optgroup>
+    <optgroup label="Proportion types">
+      <option value="petite">Petite</option>
+      <option value="tall">Tall</option>
+      <option value="plus_size">Plus size</option>
+      <option value="athletic">Athletic</option>
+      <option value="lean">Lean</option>
+      <option value="muscular">Muscular</option>
+      <option value="curvy">Curvy</option>
+      <option value="slim">Slim</option>
+    </optgroup>
+    <optgroup label="Torso/leg proportions">
+      <option value="long_torso">Long torso</option>
+      <option value="short_torso">Short torso</option>
+      <option value="long_legs">Long legs</option>
+      <option value="short_legs">Short legs</option>
+    </optgroup>
+    <optgroup label="Shoulder/hip">
+      <option value="broad_shoulders">Broad shoulders</option>
+      <option value="narrow_shoulders">Narrow shoulders</option>
+      <option value="wide_hips">Wide hips</option>
+      <option value="narrow_hips">Narrow hips</option>
+    </optgroup>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="vibe">Style Mood</label><br>
+  <input type="text" id="vibe-filter" class="select-filter" placeholder="Search..." autocomplete="off">
+  <select id="vibe">
+    <option value="" disabled selected hidden>Select style mood</option>
+    <optgroup label="Basic styles">
+      <option value="casual">Casual</option>
+      <option value="formal">Formal</option>
+      <option value="smart_casual">Smart casual</option>
+      <option value="business_casual">Business casual</option>
+      <option value="semi_formal">Semi formal</option>
+    </optgroup>
+    <optgroup label="Trendy / fashion">
+      <option value="streetwear">Streetwear</option>
+      <option value="minimalist">Minimalist</option>
+      <option value="chic">Chic</option>
+      <option value="trendy">Trendy</option>
+      <option value="fashion_forward">Fashion forward</option>
+    </optgroup>
+    <optgroup label="Comfort styles">
+      <option value="relaxed">Relaxed</option>
+      <option value="comfortable">Comfortable</option>
+      <option value="athleisure">Athleisure</option>
+      <option value="lounge">Lounge</option>
+    </optgroup>
+    <optgroup label="Elegant / classy">
+      <option value="elegant">Elegant</option>
+      <option value="classy">Classy</option>
+      <option value="sophisticated">Sophisticated</option>
+      <option value="luxury">Luxury</option>
+    </optgroup>
+    <optgroup label="Youth / college">
+      <option value="college_casual">College casual</option>
+      <option value="sporty">Sporty</option>
+      <option value="urban">Urban</option>
+      <option value="cool">Cool</option>
+    </optgroup>
+    <optgroup label="Creative styles">
+      <option value="vintage">Vintage</option>
+      <option value="retro">Retro</option>
+      <option value="bohemian">Bohemian</option>
+      <option value="indie">Indie</option>
+      <option value="bold">Bold</option>
+    </optgroup>
+    <optgroup label="Bold / party">
+      <option value="edgy">Edgy</option>
+      <option value="party_style">Party style</option>
+      <option value="glamorous">Glamorous</option>
+      <option value="bold_style">Bold</option>
+    </optgroup>
+    <optgroup label="Seasonal vibes">
+      <option value="summer_vibe">Summer vibe</option>
+      <option value="winter_cozy">Winter cozy</option>
+      <option value="beach_style">Beach style</option>
+      <option value="festival_style">Festival style</option>
+    </optgroup>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="tone">Tone</label><br>
+  <select id="tone">
+    <option value="" disabled selected hidden>Select tone</option>
+    <optgroup label="Primary tones">
+      <option value="warm">Warm</option>
+      <option value="cool">Cool</option>
+      <option value="neutral">Neutral</option>
+    </optgroup>
+    <optgroup label="Extended tones">
+      <option value="olive">Olive</option>
+      <option value="golden">Golden</option>
+      <option value="rosy">Rosy</option>
+      <option value="peach">Peach</option>
+      <option value="beige">Beige</option>
+      <option value="deep">Deep</option>
+      <option value="fair">Fair</option>
+    </optgroup>
+  </select>
+</div>
+
+<button class="btn primary" onclick="generateOutfit()">Get Outfit Suggestion</button>
+<button class="btn secondary" onclick="clearResults()">Clear Results</button>
+<button class="btn secondary" style="margin-left:10px;" onclick="randomOutfit()">Random Outfit</button>
+
+<div id="share-link" style="margin-top:10px; text-align:center;"></div>
+<div class="result" id="result"></div>
+
+</section>
+
+<section class="features" id="features">
+
+<h2>AI Wardrobe Features</h2>
+
+<div class="feature-grid">
+
+<div class="feature-card">
+<h3>AI Outfit Generator</h3>
+<p>Smart outfit suggestions based on your wardrobe.</p>
+</div>
+
+<div class="feature-card">
+<h3>Virtual Closet</h3>
+<p>Upload and organize your clothes digitally.</p>
+</div>
+
+<div class="feature-card">
+<h3>Weather Styling</h3>
+<p>Outfits recommended based on weather.</p>
+</div>
+
+<div class="feature-card">
+<h3>Color Matching</h3>
+<p>AI selects matching clothing colors.</p>
+</div>
+
+</div>
+
+</section>
+
+<section class="stats">
+
+<div class="stat">
+<h3>10K+</h3>
+<p>Users</p>
+</div>
+
+<div class="stat">
+<h3>500+</h3>
+<p>Outfits Generated</p>
+</div>
+
+<div class="stat">
+<h3>98%</h3>
+<p>User Satisfaction</p>
+</div>
+
+</section>
+
+<section class="testimonials">
+
+<h2>User Reviews</h2>
+
+<div class="testimonial">
+<p>"This AI wardrobe makes choosing outfits so easy!"</p>
+<strong>— Emily</strong>
+</div>
+
+</section>
+
+<section class="cta" id="contact">
+
+<h2>Start Using Your AI Stylist Today</h2>
+
+<button>Get Started</button>
+
+</section>
+
+<footer>
+
+<div>
+<h4>AI Wardrobe</h4>
+<p>Your smart fashion assistant.</p>
+</div>
+
+<div>
+<h4>Links</h4>
+<a href="#">Home</a>
+<a href="#">Features</a>
+<a href="#">Contact</a>
+</div>
+
+<div>
+<h4>Contact</h4>
+<p>Email: support@aiwardrobe.com</p>
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+
+<script>
+
+// particles background
+ tsParticles.load("particles-js",{
+  particles:{
+    number:{value:60},
+    color:{ value:"#00eaff" },
+    move:{ enable:true, speed:2 }
+  }
+ });
+
+// wardrobe data converted from C++
+const wardrobe = [
+  {name:"White Formal Shirt",image:"https://via.placeholder.com/100?text=White+Formal+Shirt",type:"top",vibe:"formal",occasion:"interview",season:"summer",bodyFit:["rectangle","pear","apple","hourglass"]},
+  {name:"Black Blazer",image:"https://via.placeholder.com/100?text=Black+Blazer",type:"top",vibe:"formal",occasion:"office",season:"winter",bodyFit:["rectangle","inverted_triangle","athletic"]},
+  {name:"Navy Business Shirt",image:"https://via.placeholder.com/100?text=Navy+Business+Shirt",type:"top",vibe:"formal",occasion:"meeting",season:"all",bodyFit:["rectangle","pear","apple"]},
+  {name:"Grey Suit Jacket",image:"https://via.placeholder.com/100?text=Grey+Suit+Jacket",type:"top",vibe:"formal",occasion:"conference",season:"winter",bodyFit:["rectangle","athletic"]},
+  {name:"Cream Formal Shirt",image:"https://via.placeholder.com/100?text=Cream+Formal+Shirt",type:"top",vibe:"formal",occasion:"presentation",season:"summer",bodyFit:["rectangle","pear"]},
+  {name:"Black Slim Trousers",image:"https://via.placeholder.com/100?text=Black+Slim+Trousers",type:"bottom",vibe:"formal",occasion:"interview",season:"all",bodyFit:["rectangle","inverted_triangle"]},
+  {name:"Grey Office Pants",image:"https://via.placeholder.com/100?text=Grey+Office+Pants",type:"bottom",vibe:"formal",occasion:"office",season:"all",bodyFit:["rectangle","pear"]},
+  {name:"Navy Formal Pants",image:"https://via.placeholder.com/100?text=Navy+Formal+Pants",type:"bottom",vibe:"formal",occasion:"meeting",season:"all",bodyFit:["rectangle","athletic"]},
+  {name:"Beige Chinos",image:"https://via.placeholder.com/100?text=Beige+Chinos",type:"bottom",vibe:"smart_casual",occasion:"office",season:"summer",bodyFit:["rectangle","pear"]},
+  {name:"Black Dress Pants",image:"https://via.placeholder.com/100?text=Black+Dress+Pants",type:"bottom",vibe:"formal",occasion:"conference",season:"all",bodyFit:["rectangle"]},
+  {name:"Black Formal Shoes",image:"https://via.placeholder.com/100?text=Black+Formal+Shoes",type:"shoes",vibe:"formal",occasion:"interview",season:"all",bodyFit:["rectangle","pear","apple"]},
+  {name:"Brown Leather Shoes",image:"https://via.placeholder.com/100?text=Brown+Leather+Shoes",type:"shoes",vibe:"formal",occasion:"office",season:"all",bodyFit:["rectangle","pear"]},
+  {name:"Oxford Shoes",image:"https://via.placeholder.com/100?text=Oxford+Shoes",type:"shoes",vibe:"formal",occasion:"meeting",season:"all",bodyFit:["rectangle","athletic"]},
+  {name:"Oversized Hoodie",image:"https://via.placeholder.com/100?text=Oversized+Hoodie",type:"top",vibe:"casual",occasion:"college",season:"winter",bodyFit:["rectangle","pear","apple"]},
+  {name:"Graphic T Shirt",image:"https://via.placeholder.com/100?text=Graphic+T+Shirt",type:"top",vibe:"casual",occasion:"college",season:"summer",bodyFit:["rectangle","athletic"]},
+  {name:"Streetwear Sweatshirt",image:"https://via.placeholder.com/100?text=Streetwear+Sweatshirt",type:"top",vibe:"streetwear",occasion:"college",season:"winter",bodyFit:["rectangle","pear"]},
+  {name:"Blue Denim Jacket",image:"https://via.placeholder.com/100?text=Blue+Denim+Jacket",type:"top",vibe:"streetwear",occasion:"party",season:"winter",bodyFit:["rectangle","athletic"]},
+  {name:"White Casual Shirt",image:"https://via.placeholder.com/100?text=White+Casual+Shirt",type:"top",vibe:"smart_casual",occasion:"dinner",season:"summer",bodyFit:["rectangle","pear"]},
+  {name:"Black Polo Shirt",image:"https://via.placeholder.com/100?text=Black+Polo+Shirt",type:"top",vibe:"smart_casual",occasion:"date",season:"summer",bodyFit:["rectangle","athletic"]},
+  {name:"Blue Jeans",image:"https://via.placeholder.com/100?text=Blue+Jeans",type:"bottom",vibe:"casual",occasion:"college",season:"all",bodyFit:["rectangle","pear","apple"]},
+  {name:"Black Skinny Jeans",image:"https://via.placeholder.com/100?text=Black+Skinny+Jeans",type:"bottom",vibe:"streetwear",occasion:"party",season:"all",bodyFit:["rectangle","athletic"]},
+  {name:"Grey Joggers",image:"https://via.placeholder.com/100?text=Grey+Joggers",type:"bottom",vibe:"sporty",occasion:"gym",season:"all",bodyFit:["rectangle","athletic"]},
+  {name:"Cargo Pants",image:"https://via.placeholder.com/100?text=Cargo+Pants",type:"bottom",vibe:"streetwear",occasion:"travel",season:"all",bodyFit:["rectangle","pear"]},
+  {name:"Denim Shorts",image:"https://via.placeholder.com/100?text=Denim+Shorts",type:"bottom",vibe:"casual",occasion:"beach",season:"summer",bodyFit:["rectangle","pear"]},
+  {name:"White Sneakers",image:"https://via.placeholder.com/100?text=White+Sneakers",type:"shoes",vibe:"casual",occasion:"college",season:"all",bodyFit:["rectangle","pear","apple"]},
+  {name:"Running Shoes",image:"https://via.placeholder.com/100?text=Running+Shoes",type:"shoes",vibe:"sporty",occasion:"gym",season:"all",bodyFit:["rectangle","athletic"]},
+  {name:"Canvas Sneakers",image:"https://via.placeholder.com/100?text=Canvas+Sneakers",type:"shoes",vibe:"casual",occasion:"shopping",season:"all",bodyFit:["rectangle","pear"]},
+  {name:"Beach Sandals",image:"https://via.placeholder.com/100?text=Beach+Sandals",type:"shoes",vibe:"casual",occasion:"beach",season:"summer",bodyFit:["rectangle","pear"]},
+  {name:"Party Boots",image:"https://via.placeholder.com/100?text=Party+Boots",type:"shoes",vibe:"party",occasion:"nightout",season:"winter",bodyFit:["rectangle","athletic"]}
+];
+
+function cleanInput(s){
+  return s.trim().toLowerCase();
+}
+
+function scoreItem(o, occasion, season, body, vibe){
+  let points = 0;
+  if(o.occasion === occasion) points += 5;
+  if(o.season === season || o.season === "all") points += 4;
+  if(o.vibe === vibe) points += 3;
+  if(o.bodyFit.includes(body)) points += 3;
+  return points;
+}
+
+// returns detailed scoring breakdown for an item
+function scoreDetails(o, occasion, season, body, vibe, tone){
+  const details = {
+    occasion: (o.occasion === occasion) ? 5 : 0,
+    season: (o.season === season || o.season === "all") ? 4 : 0,
+    vibe: (o.vibe === vibe) ? 3 : 0,
+    body: o.bodyFit.includes(body) ? 3 : 0,
+    tone: toneScore(o, tone),
+  };
+  details.total = details.occasion + details.season + details.vibe + details.body + details.tone;
+  return details;
+}
+
+function toneScore(o, tone){
+  const name = o.name.toLowerCase();
+  if(tone === "warm"){
+    if(/brown|cream|olive|gold/.test(name)) return 2;
+  }
+  if(tone === "cool"){
+    if(/blue|black|grey|purple/.test(name)) return 2;
+  }
+  if(tone === "neutral"){
+    if(/white|beige|navy/.test(name)) return 2;
+  }
+  if(tone === "olive"){
+    if(/green|brown/.test(name)) return 2;
+  }
+  return 0;
+}
+
+function generateOutfit(){
+  const occasion = document.getElementById("occasion").value;
+  const season = document.getElementById("season").value;
+  const body = document.getElementById("body").value;
+  const vibe = document.getElementById("vibe").value;
+  const tone = document.getElementById("tone").value;
+
+  if(!occasion || !season || !body || !vibe || !tone){
+    alert('Please select values for all fields before getting a suggestion.');
+    return;
+  }
+
+  // score every item by type
+  const tops = [];
+  const bottoms = [];
+  const shoes = [];
+  wardrobe.forEach(item=>{
+    const details = scoreDetails(item, occasion, season, body, vibe, tone);
+    if(item.type==='top') tops.push({item,details});
+    if(item.type==='bottom') bottoms.push({item,details});
+    if(item.type==='shoes') shoes.push({item,details});
+  });
+
+  if(!tops.length || !bottoms.length || !shoes.length){
+    document.getElementById('result').innerHTML='<p>No outfit match found.</p>';
+    return;
+  }
+
+  // generate combinations
+  const combos=[];
+  tops.forEach(t=>{
+    bottoms.forEach(b=>{
+      shoes.forEach(s=>{
+        combos.push({top:t,bottom:b,shoes:s,total:t.details.total+b.details.total+s.details.total});
+      });
+    });
+  });
+  combos.sort((a,b)=>b.total-a.total);
+  const winners = combos.slice(0,6);
+
+  const maxPerItem = 17;
+  const maxTotal = maxPerItem*3;
+
+  // compliment pools keyed by score tier
+  const compliments = {
+    excellent: [
+      "That outfit is fire! 🔥",
+      "You’re a walking fashion icon! 😍",
+      "Confidence level: 100% in that combo! 😎",
+      "Style unmatched — everyone’s gonna stare! 💫"
+    ],
+    great: [
+      "You’re gonna slay in that look! 💃",
+      "This combo is giving major vibes! 💥",
+      "Rock it with pride — you deserve it! 🌟"
+    ],
+    okay: [
+      "Very you — you're gonna rock it! 💫",
+      "Solid choice! It’s a nice step in the right direction. 👍",
+      "Not bad at all, feeling good yet? 😌"
+    ],
+    playful: [
+      "Fashion police called—they said try again tomorrow! 😂",
+      "Let’s call this an experimental look. Bold moves! 🤪",
+      "Don't worry, even legends have off days. 😅"
+    ]
+  };
+
+  function getCompliment(p){
+    if(p>=80) return compliments.excellent[Math.floor(Math.random()*compliments.excellent.length)];
+    if(p>=60) return compliments.great[Math.floor(Math.random()*compliments.great.length)];
+    if(p>=40) return compliments.okay[Math.floor(Math.random()*compliments.okay.length)];
+    return compliments.playful[Math.floor(Math.random()*compliments.playful.length)];
+  }
+  function getMotivation(p){
+    if(p>=80) return `🌟 You're unstoppable today — go show the world what you've got!\n\nWalk with your head high, your style is your superpower. This outfit and you? A perfect match. Let your confidence lead.`;
+    if(p>=60) return `💪 This is a strong look. Wear it with pride!\n\nEvery piece you've chosen sends a message: I'm here and I'm ready. Own the room, one step at a time.`;
+    if(p>=40) return `✨ You're on the right track — confidence is your best accessory.\n\nLittle things make a big difference, and you just took a big one. Keep styling, keep smiling, you're doing great.`;
+    return `🔥 Every day is a new chance to shine, start with this outfit!\n\nDon't be afraid to experiment — boldness breeds beauty. Today might surprise you more than you think.`;
+  }
+
+  const resultEl=document.getElementById('result');
+  let html='<h3>Top 6 Outfit Suggestions</h3>';
+  winners.forEach((c,i)=>{
+    const p=((c.total/maxTotal)*100).toFixed(0);
+    html+=`<div class="suggestion"><div class="score-badge">${p}% Match</div><h4>#${i+1}</h4>`;
+    html+=`<p><img src="${c.top.item.image}" alt="${c.top.item.name}" class="item-image"><strong>Top:</strong> ${c.top.item.name} <em>(${c.top.details.total} pts)</em></p><ul>`;
+    html+=`<li>Occasion: ${c.top.details.occasion}</li><li>Season: ${c.top.details.season}</li>`;
+    html+=`<li>Vibe: ${c.top.details.vibe}</li><li>Body fit: ${c.top.details.body}</li>`;
+    html+=`<li>Tone: ${c.top.details.tone}</li></ul>`;
+    html+=`<p><img src="${c.bottom.item.image}" alt="${c.bottom.item.name}" class="item-image"><strong>Bottom:</strong> ${c.bottom.item.name} <em>(${c.bottom.details.total} pts)</em></p><ul>`;
+    html+=`<li>Occasion: ${c.bottom.details.occasion}</li><li>Season: ${c.bottom.details.season}</li>`;
+    html+=`<li>Vibe: ${c.bottom.details.vibe}</li><li>Body fit: ${c.bottom.details.body}</li>`;
+    html+=`<li>Tone: ${c.bottom.details.tone}</li></ul>`;
+    html+=`<p><img src="${c.shoes.item.image}" alt="${c.shoes.item.name}" class="item-image"><strong>Shoes:</strong> ${c.shoes.item.name} <em>(${c.shoes.details.total} pts)</em></p><ul>`;
+    html+=`<li>Occasion: ${c.shoes.details.occasion}</li><li>Season: ${c.shoes.details.season}</li>`;
+    html+=`<li>Vibe: ${c.shoes.details.vibe}</li><li>Body fit: ${c.shoes.details.body}</li>`;
+    html+=`<li>Tone: ${c.shoes.details.tone}</li></ul>`;
+    html+=`<p class="compliment">${getCompliment(p)}</p>`;
+    html+=`<p class="motivation">${getMotivation(p)}</p>`;
+    html+='</div>';
+  });
+  resultEl.innerHTML=html;
+  // share link for top suggestion
+  if(winners.length){
+    updateShareLink(winners[0].top.item, winners[0].bottom.item, winners[0].shoes.item);
+  }
+}
+
+// upload & storage functionality
+const uploadInput = document.getElementById("upload");
+const wardrobeDiv = document.getElementById("wardrobe");
+
+window.addEventListener('load', function(){
+  wardrobeDiv.innerHTML = localStorage.getItem("wardrobe") || "";
+});
+
+uploadInput.addEventListener('change', function(){
+  const files = Array.from(this.files);
+  files.forEach(file=>{
+    if(file && file.type.startsWith('image/')){
+      const reader = new FileReader();
+      reader.onload = function(e){
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.alt = file.name;
+        img.className = 'wardrobe-item';
+        wardrobeDiv.appendChild(img);
+        localStorage.setItem('wardrobe', wardrobeDiv.innerHTML);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+});
+
+function clearResults(){
+  document.getElementById('result').innerHTML = '';
+  document.getElementById('share-link').innerHTML = '';
+}
+
+// when an outfit is selected, build a shareable link
+function updateShareLink(top, bottom, shoes){
+  // base URL without query string; works correctly even when opened via file://
+  const base = window.location.href.split('?')[0];
+  const params = new URLSearchParams({top: top.name, bottom: bottom.name, shoes: shoes.name});
+  const url = `${base}?${params.toString()}`;
+  const container = document.getElementById('share-link');
+  container.innerHTML = `Share this look: <a href="${url}" target="_blank" id="shared-link">${url}</a> ` +
+                        `<button id="copy-link" class="secondary" style="margin-left:8px;">Copy</button>`;
+  const copyBtn = document.getElementById('copy-link');
+  if(copyBtn){
+    copyBtn.addEventListener('click', ()=>{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(url).then(()=>alert('Link copied to clipboard!'))
+          .catch(()=>prompt('Copy this link:', url));
+      } else {
+        prompt('Copy this link:', url);
+      }
+    });
+  }
+}
+
+function randomOutfit(){
+  const tops = wardrobe.filter(i=>i.type==='top');
+  const bottoms = wardrobe.filter(i=>i.type==='bottom');
+  const shoes = wardrobe.filter(i=>i.type==='shoes');
+  if(!tops.length||!bottoms.length||!shoes.length) return;
+  const top = tops[Math.floor(Math.random()*tops.length)];
+  const bottom = bottoms[Math.floor(Math.random()*bottoms.length)];
+  const shoe = shoes[Math.floor(Math.random()*shoes.length)];
+  // build simple display
+  const resultEl = document.getElementById('result');
+  resultEl.innerHTML = `<h3>Random Outfit</h3>
+    <p><img src="${top.image}" alt="${top.name}" class="item-image"><strong>Top:</strong> ${top.name}</p>
+    <p><img src="${bottom.image}" alt="${bottom.name}" class="item-image"><strong>Bottom:</strong> ${bottom.name}</p>
+    <p><img src="${shoe.image}" alt="${shoe.name}" class="item-image"><strong>Shoes:</strong> ${shoe.name}</p>`;
+  updateShareLink(top,bottom,shoe);
+}
+
+// filtering helper for selects
+function addSearchFilter(inputId, selectId){
+  const input = document.getElementById(inputId);
+  const select = document.getElementById(selectId);
+  if(!input || !select) return;
+  input.addEventListener('input', ()=>{
+    const filter = input.value.toLowerCase();
+    Array.from(select.querySelectorAll('option')).forEach(opt=>{
+      if(opt.disabled && opt.value==='') return; // skip placeholder
+      opt.hidden = !opt.textContent.toLowerCase().includes(filter);
+    });
+  });
+}
+
+window.addEventListener('load', ()=>{
+  addSearchFilter('occasion-filter','occasion');
+  addSearchFilter('season-filter','season');
+  addSearchFilter('body-filter','body');
+  addSearchFilter('vibe-filter','vibe');
+  // if link params exist, display that outfit
+  const qs = new URLSearchParams(window.location.search);
+  if(qs.has('top') && qs.has('bottom') && qs.has('shoes')){
+    const t = qs.get('top');
+    const b = qs.get('bottom');
+    const s = qs.get('shoes');
+    const findItem = name => wardrobe.find(i=>i.name===name);
+    const top = findItem(t), bottom= findItem(b), shoe=findItem(s);
+    if(top && bottom && shoe){
+      const res = document.getElementById('result');
+      res.innerHTML = `<h3>Shared Outfit</h3>
+        <p><img src="${top.image}" alt="${top.name}" class="item-image"><strong>Top:</strong> ${top.name}</p>
+        <p><img src="${bottom.image}" alt="${bottom.name}" class="item-image"><strong>Bottom:</strong> ${bottom.name}</p>
+        <p><img src="${shoe.image}" alt="${shoe.name}" class="item-image"><strong>Shoes:</strong> ${shoe.name}</p>`;
+      updateShareLink(top,bottom,shoe);
+    }
+  }
+});
+</script>
